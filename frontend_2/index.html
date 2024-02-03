@@ -48,13 +48,20 @@
 
       <button id="showRankings">Mostrar Ranking</button>
       <div>
-
         <div id="generalRanking"></div>
         <div id="loserInfo"></div>
         <div id="winnerInfo"></div>
+      </div>
+      <button id="deletePlayerGames">Eliminar Jugadas del Jugador</button>
 
-        </div>
+      <!-- Botón para iniciar la edición -->
+      <button id="editPlayerButton">Editar Jugador</button>
 
+      <!-- Formulario para editar el nombre del jugador -->
+      <div id="editPlayerForm" style="display: none">
+        <input type="text" id="editPlayerName" placeholder="Nuevo nombre" />
+        <button id="savePlayerName">Guardar Cambios</button>
+      </div>
     </div>
 
     <script src="app.js"></script>

@@ -211,8 +211,8 @@ function fetchPlayerGames() {
 
 document.getElementById("showRankings").addEventListener("click", () => {
   fetchGeneralRanking();
-  fetchBestPlayer();
   fetchWorstPlayer();
+  fetchBestPlayer();
 });
 
 function fetchGeneralRanking() {
@@ -222,25 +222,19 @@ function fetchGeneralRanking() {
     .catch((error) => console.error("Error:", error));
 }
 
-function fetchBestPlayer() {
-  fetch("http://localhost:3000/ranking/winner")
-    .then((response) => response.json())
-    .then((data) => displayRanking([data], "bestPlayer")) // Ajustado para usar la misma función de visualización
-    .catch((error) => console.error("Error:", error));
-}
+// function fetchWorstPlayer() {
+//   fetch("http://localhost:3000/ranking/loser")
+//   .then((response) => response.json())
+//   .then((data) => displayRanking([data], "worstPlayer")) // Ajustado para usar la misma función de visualización
+//   .catch((error) => console.error("Error:", error));
+// }
 
-function fetchWorstPlayer() {
-  fetch("http://localhost:3000/ranking/loser")
-    .then((response) => response.json())
-    .then((data) => displayRanking([data], "worstPlayer")) // Ajustado para usar la misma función de visualización
-    .catch((error) => console.error("Error:", error));
-}
-
-document.getElementById("showRankings").addEventListener("click", () => {
-  fetchGeneralRanking();
-  fetchBestPlayer();
-  fetchWorstPlayer();
-});
+// function fetchBestPlayer() {
+//   fetch("http://localhost:3000/ranking/winner")
+//     .then((response) => response.json())
+//     .then((data) => displayRanking([data], "bestPlayer")) // Ajustado para usar la misma función de visualización
+//     .catch((error) => console.error("Error:", error));
+// }
 
 function displayRanking(data, containerId) {
   const container = document.getElementById(containerId);
@@ -299,20 +293,12 @@ function fetchWorstPlayer() {
     });
 }
 
-document
-  .getElementById("showRankings")
-  .addEventListener("click", fetchWorstPlayer);
-
-  document
-  .getElementById("showRankings")
-  .addEventListener("click", fetchWinner);
-
 function displayLoserInfo(loser) {
   const container = document.getElementById("loserInfo");
   container.innerHTML = ""; // Limpia el contenedor antes de mostrar nueva información
 
   if (loser) {
-    const info = `Nombre: ${
+    const info = `LOSER Nombre: ${
       loser.name
     }, Porcentaje de Éxito: ${loser.winPercentage.toFixed(2)}%`;
     container.textContent = info;
@@ -321,35 +307,116 @@ function displayLoserInfo(loser) {
   }
 }
 
-function fetchWinner() {
-  fetch('http://localhost:3000/ranking/winner', {
-    method: 'GET',
+function fetchBestPlayer() {
+  fetch("http://localhost:3000/ranking/winner", {
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('No se pudo obtener la información del ganador');
-    }
-    return response.json();
-  })
-  .then(data => {
-    displayWinnerInfo(data.winner); // Asume que la respuesta incluye un objeto 'winner'
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    // Considera mostrar este error en la interfaz de usuario
-  });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("No se pudo obtener la información del ganador");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      displayWinnerInfo(data.winner); // Asume que la respuesta incluye un objeto 'winner'
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      // Considera mostrar este error en la interfaz de usuario
+    });
 }
 function displayWinnerInfo(winner) {
-  const container = document.getElementById('winnerInfo');
-  container.innerHTML = ''; // Limpia el contenedor antes de mostrar nueva información
+  const container = document.getElementById("winnerInfo");
+  container.innerHTML = ""; // Limpia el contenedor antes de mostrar nueva información
 
   if (winner) {
-    const info = `Nombre: ${winner.name}, Porcentaje de Éxito: ${winner.winPercentage.toFixed(2)}%`;
+    const info = `WINNER Nombre: ${
+      winner.name
+    }, Porcentaje de Éxito: ${winner.winPercentage.toFixed(2)}%`;
     container.textContent = info;
   } else {
-    container.textContent = 'Información no disponible';
+    container.textContent = "Información no disponible";
   }
 }
+
+function deletePlayerGames() {
+  if (!currentPlayerId) {
+    alert("No hay un jugador activo.");
+    return;
+  }
+
+  fetch(`http://localhost:3000/games/${currentPlayerId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("No se pudo eliminar las jugadas del jugador");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      alert("Jugadas eliminadas con éxito.");
+      const gamesContainer = document.getElementById("gamesList");
+      gamesContainer.innerHTML = ""; // Limpiar el contenedor de jugadas para reflejar la eliminación
+      fetchPlayerGames();
+      fetchAndDisplayPlayers();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Error al eliminar las jugadas del jugador.");
+    });
+}
+
+document
+  .getElementById("deletePlayerGames")
+  .addEventListener("click", deletePlayerGames);
+
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    const editPlayerButton = document.getElementById("editPlayerButton");
+    const savePlayerNameButton = document.getElementById("savePlayerName");
+  
+    // Mostrar el formulario de edición al hacer clic en "Editar Jugador"
+    editPlayerButton.addEventListener("click", () => {
+      document.getElementById("editPlayerForm").style.display = "block";
+    });
+  
+    // Guardar el nuevo nombre al hacer clic en "Guardar Cambios"
+    savePlayerNameButton.addEventListener("click", () => {
+      const newName = document.getElementById("editPlayerName").value;
+      if (!currentPlayerId || newName.trim() === "") {
+        alert("Es necesario seleccionar un jugador y escribir un nombre.");
+        return;
+      }
+  
+      fetch(`http://localhost:3000/players/${currentPlayerId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: newName }),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("No se pudo actualizar el nombre del jugador");
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert("Nombre del jugador actualizado con éxito.");
+        // Opcional: Actualizar la UI según sea necesario
+        document.getElementById("editPlayerForm").style.display = "none";
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("Error al actualizar el nombre del jugador.");
+      });
+    });
+  });
+  
