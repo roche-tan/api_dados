@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dice App</title>
+  </head>
+  <body>
+    <h1>Dice App</h1>
+    <div id="loginSection">
+      <h2>Iniciar Sesión</h2>
+      <label>
+        <input
+          type="radio"
+          name="playerType"
+          value="anonymous"
+          checked
+        />Anónimo
+      </label>
+      <label>
+        <input type="radio" name="playerType" value="personal" />Personal
+      </label>
+      <div id="personalName" style="display: none">
+        <input type="text" id="name" placeholder="Introduce tu nombre" />
+      </div>
+      <button id="startGame">Iniciar Juego</button>
+    </div>
+
+    <!-- Sección de Juego -->
+    <div id="gameSection" style="display: none">
+      <h2>Juego</h2>
+      <div id="diceContainer">
+        <img id="dice1" src="img/1.svg" alt="Dado 1" />
+        <img id="dice2" src="img/1.svg" alt="Dado 2" />
+      </div>
+      <button id="playGame">Jugar</button>
+      <button id="logoutButton">Cerrar Sesión</button>
+
+      <!-- Botón para ver listado de jugadores -->
+      <button id="showPlayersList">Ver Listado de Jugadores</button>
+
+      <!-- Contenedor para mostrar el listado de jugadores -->
+      <div id="playersList"></div>
+
+      <!-- Contenedor para mostrar el listado de jugadas de un jugador -->
+      <button id="showGames">Ver Mis Jugadas</button>
+      <div id="gamesList"></div>
+
+      <button id="showRankings">Mostrar Ranking</button>
+      <div>
+
+        <div id="generalRanking"></div>
+        <div id="loserInfo"></div>
+        <div id="winnerInfo"></div>
+
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

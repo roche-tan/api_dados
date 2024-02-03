@@ -1,0 +1,10 @@
+@keyframes rollDiceAnimation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .dice-roll {
+    animation: rollDiceAnimation 0.5s ease-in-out;
+  }
+  
+  
