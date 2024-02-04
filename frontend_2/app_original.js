@@ -1,6 +1,3 @@
-// IMPORT API CREATE PLAYER
-import { createPlayer } from "./src/api/createPlayer.js";
-
 let currentPlayerId = null;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -90,12 +87,18 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", fetchPlayerGames);
 });
 
-function createUserAndRedirect(name) {
-  console.log("función createUserAndRedirect en app", name);
+function createPlayer(name) {
   // Determinar si se debería enviar un cuerpo vacío para un jugador anónimo
   const isAnonymous = name.toLowerCase() === "anónimo" || name === "";
 
-  createPlayer(name)
+  fetch("http://localhost:3000/players", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    // Enviar un cuerpo vacío si el jugador es anónimo; de lo contrario, enviar el nombre
+    body: isAnonymous ? "{}" : JSON.stringify({ name }),
+  })
     .then((response) => response.json())
     .then((data) => {
       console.log("Jugador creado:", data);
@@ -106,6 +109,7 @@ function createUserAndRedirect(name) {
       console.error("Error:", error);
     });
 }
+
 function playGame() {
   if (!currentPlayerId) {
     alert("No hay un jugador activo.");
@@ -217,6 +221,20 @@ function fetchGeneralRanking() {
     .then((data) => displayRanking(data, "generalRanking"))
     .catch((error) => console.error("Error:", error));
 }
+
+// function fetchWorstPlayer() {
+//   fetch("http://localhost:3000/ranking/loser")
+//   .then((response) => response.json())
+//   .then((data) => displayRanking([data], "worstPlayer")) // Ajustado para usar la misma función de visualización
+//   .catch((error) => console.error("Error:", error));
+// }
+
+// function fetchBestPlayer() {
+//   fetch("http://localhost:3000/ranking/winner")
+//     .then((response) => response.json())
+//     .then((data) => displayRanking([data], "bestPlayer")) // Ajustado para usar la misma función de visualización
+//     .catch((error) => console.error("Error:", error));
+// }
 
 function displayRanking(data, containerId) {
   const container = document.getElementById(containerId);
