@@ -222,20 +222,6 @@ function fetchGeneralRanking() {
     .catch((error) => console.error("Error:", error));
 }
 
-// function fetchWorstPlayer() {
-//   fetch("http://localhost:3000/ranking/loser")
-//   .then((response) => response.json())
-//   .then((data) => displayRanking([data], "worstPlayer")) // Ajustado para usar la misma función de visualización
-//   .catch((error) => console.error("Error:", error));
-// }
-
-// function fetchBestPlayer() {
-//   fetch("http://localhost:3000/ranking/winner")
-//     .then((response) => response.json())
-//     .then((data) => displayRanking([data], "bestPlayer")) // Ajustado para usar la misma función de visualización
-//     .catch((error) => console.error("Error:", error));
-// }
-
 function displayRanking(data, containerId) {
   const container = document.getElementById(containerId);
   container.innerHTML = ""; // Limpiar el contenedor antes de mostrar los nuevos resultados
