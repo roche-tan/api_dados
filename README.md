@@ -26,7 +26,7 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
 
 ## Documentación API
 
-###Endpoints Disponibles
+### Endpoints Disponibles
 
 1. Crear Jugador
 
