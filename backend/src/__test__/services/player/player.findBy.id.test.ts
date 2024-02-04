@@ -1,5 +1,5 @@
 import Player from "../../../models/player.model.sql";
-import PlayerRepository from "../../../services/player/player.services";
+import PlayerRepository from "../../../repositories/sql/player.repository";
 
 // Mock de Sequelize findByPk
 jest.mock("../../../models/player.model.sql", () => ({
@@ -18,7 +18,7 @@ describe("PlayerRepository - findPlayerById", () => {
     (Player.findByPk as jest.Mock).mockResolvedValue(mockPlayer);
 
     // Llama al método que estás probando
-    const player = await PlayerRepository.findPlayerById("1");
+    const player = await new PlayerRepository().findPlayerById("1");
 
     // Verifica que el resultado sea el esperado
     expect(player).toEqual(mockPlayer);

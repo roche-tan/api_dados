@@ -1,5 +1,5 @@
 import Player from "../../../models/player.model.sql";
-import PlayerRepository from "../../../services/player/player.services";
+import PlayerRepository from "../../../repositories/sql/player.repository";
 
 jest.mock("../../../models/player.model.sql"); // Asegúrate de que la ruta sea correcta
 
@@ -16,14 +16,14 @@ describe("PlayerRepository", () => {
       const oldName = "NombreAntiguo";
 
       // Simular que el nombre no está en uso
-      jest.spyOn(PlayerRepository, "_isNameInUse").mockResolvedValueOnce(false);
+      jest.spyOn(new PlayerRepository(), "_isNameInUse").mockResolvedValueOnce(false);
 
       // Simular que encontramos el jugador
       const mockPlayer = { id: playerId, name: oldName, save: jest.fn() };
       (Player.findByPk as jest.Mock).mockResolvedValue(mockPlayer);
 
       // Llamar al método a probar
-      await PlayerRepository.updatePlayerName(playerId, newName);
+      await new PlayerRepository().updatePlayerName(playerId, newName);
 
       // Verificar que se cambió el nombre y se guardó el jugador
       expect(mockPlayer.name).toBe(newName);
@@ -33,12 +33,12 @@ describe("PlayerRepository", () => {
     it("debería lanzar un error si el nuevo nombre está en uso", async () => {
       const playerId = "1";
       const newName = "NombreEnUso";
-
+      const playerRepo = new PlayerRepository();
       // Simular que el nombre nuevo ya está en uso
-      jest.spyOn(PlayerRepository, "_isNameInUse").mockResolvedValueOnce(true);
+      jest.spyOn(playerRepo, "_isNameInUse").mockResolvedValueOnce(true);
 
       // Probar que se lanza un error
-      await expect(PlayerRepository.updatePlayerName(playerId, newName)).rejects.toThrow("El nombre ya está en uso por otro jugador");
+      await expect(playerRepo.updatePlayerName(playerId, newName)).rejects.toThrow("El nombre ya está en uso por otro jugador");
     });
 
     it("debería lanzar un error si el jugador no existe", async () => {
@@ -49,7 +49,7 @@ describe("PlayerRepository", () => {
       (Player.findByPk as jest.Mock).mockResolvedValue(null);
 
       // Probar que se lanza un error
-      await expect(PlayerRepository.updatePlayerName(playerId, newName)).rejects.toThrow("Jugador no encontrado");
+      await expect(new PlayerRepository().updatePlayerName(playerId, newName)).rejects.toThrow("Jugador no encontrado");
     });
   });
 });

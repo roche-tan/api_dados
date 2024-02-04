@@ -2,7 +2,7 @@ import express, { Application } from "express";
 import cors from "cors";
 import config from "../config";
 
-// import { connectDB } from "../db/config.mongo";
+import { connectDB } from "../db/config.mongo";
 import { connectDBMySQL } from "../db/config.sql";
 
 import routerGames from "../routes/game.routes";
@@ -32,14 +32,11 @@ class Server {
     this.app = express();
     this.port = config.port;
 
-    this.dbConnect();
-    this.middlewares();
-    this.routes();
-    this.listen();
+
   }
 
   async dbConnect() {
-    // await connectDB(); // Conexión a MongoDB
+    await connectDB(); // Conexión a MongoDB
     await connectDBMySQL(); // Conexión a MySQL
   }
 
@@ -60,6 +57,13 @@ class Server {
     this.app.listen(this.port, () => {
       console.log(`Server running on port ${this.port}...`);
     });
+  }
+
+  public async init() {
+    await this.dbConnect(); // Make sure DB is connected before setting up anything else
+    this.middlewares();
+    this.routes();
+    this.listen();
   }
  
 }

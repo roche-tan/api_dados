@@ -2,7 +2,7 @@ import Game from "../../models/game.model.sql";
 
 class GameRepository {
   async createGame(
-    player_id: number,
+    player_id: string,
     dice1: number,
     dice2: number,
     result: boolean
@@ -32,4 +32,4 @@ class GameRepository {
   }
 }
 
-export default new GameRepository();
+export default GameRepository;

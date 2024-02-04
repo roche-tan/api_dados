@@ -1,13 +1,21 @@
 import { Request, Response } from "express";
-import playerRepository from "../services/player/player.services";
-
+import PlayerRepositorySQL from "../repositories/sql/player.repository";
+import PlayerRepositoryMongo from "../repositories/mongo/player.repository";
+import config from "../config";
 class RankingController {
+  private playerRepository: PlayerRepositoryMongo | PlayerRepositorySQL | undefined = undefined;;
+
   constructor() {
     this.getRanking = this.getRanking.bind(this);
     this.getLoser = this.getLoser.bind(this);
     this.getWinner = this.getWinner.bind(this);
     this.getSortAllPlayersWithWinPercentage =
       this.getSortAllPlayersWithWinPercentage.bind(this);
+    if (config.database === "mongo") {
+      this.playerRepository = new PlayerRepositoryMongo();
+    } else if (config.database === "sql") {
+      this.playerRepository = new PlayerRepositorySQL();
+    }
   }
 
   private async getSortAllPlayersWithWinPercentage(
@@ -22,8 +30,12 @@ class RankingController {
 
   public async getRanking(req: Request, res: Response): Promise<void> {
     try {
+      if (!this.playerRepository) {
+        throw new Error("Player repository is not initialized");
+      }
+
       const playersWithWinPercentage =
-        await playerRepository.getAllPlayersWithWinPercentage();
+        await this.playerRepository.getAllPlayersWithWinPercentage();
 
       const sortPlayersWithWinPercentage =
         await this.getSortAllPlayersWithWinPercentage(playersWithWinPercentage);
@@ -44,8 +56,11 @@ class RankingController {
   // GET /ranking/loser: devuelve al jugador/a con peor porcentaje de éxito.
   public async getLoser(req: Request, res: Response): Promise<void> {
     try {
+      if (!this.playerRepository) {
+        throw new Error("Player repository is not initialized");
+      }
       const playersWithWinPercentage =
-        await playerRepository.getAllPlayersWithWinPercentage();
+        await this.playerRepository.getAllPlayersWithWinPercentage();
 
       const sortPlayersWithWinPercentage =
         await this.getSortAllPlayersWithWinPercentage(playersWithWinPercentage);
@@ -62,8 +77,11 @@ class RankingController {
   //  GET /ranking/winner: devuelve al jugador/a con mejor porcentaje de éxito.
   public async getWinner(req: Request, res: Response): Promise<void> {
     try {
+      if (!this.playerRepository) {
+        throw new Error("Player repository is not initialized");
+      }
       const playersWithWinPercentage =
-        await playerRepository.getAllPlayersWithWinPercentage();
+        await this.playerRepository.getAllPlayersWithWinPercentage();
 
       const sortPlayersWithWinPercentage =
         await this.getSortAllPlayersWithWinPercentage(playersWithWinPercentage);

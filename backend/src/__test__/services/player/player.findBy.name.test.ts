@@ -1,5 +1,5 @@
 import Player from "../../../models/player.model.sql";
-import PlayerRepository from "../../../services/player/player.services";
+import PlayerRepository from "../../../repositories/sql/player.repository";
 
 describe("PlayerRepository - findPlayerByName", () => {
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe("PlayerRepository - findPlayerByName", () => {
     jest.spyOn(Player, "findOne").mockResolvedValue(null);
 
     // Llamar al método a probar
-    const result = await PlayerRepository.findPlayerByName(playerName);
+    const result = await new PlayerRepository().findPlayerByName(playerName);
 
     // Verificar que el resultado es null
     expect(result).toBeNull();
@@ -31,7 +31,7 @@ describe("PlayerRepository - findPlayerByName", () => {
 
     const playerName = "Juan Perez";
 
-    const player = await PlayerRepository.findPlayerByName(playerName);
+    const player = await new PlayerRepository().findPlayerByName(playerName);
 
     expect(player).toEqual(mockPlayer);
     expect(Player.findOne).toHaveBeenCalledWith({ where: { name: playerName } });

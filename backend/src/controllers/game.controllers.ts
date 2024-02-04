@@ -1,18 +1,43 @@
 import { Request, Response } from "express";
-import playerServices from "../services/player/player.services";
+import PlayerRepositorySQL from "../repositories/sql/player.repository";
+import PlayerRepositoryMongo from "../repositories/mongo/player.repository";
 import { rollDices } from "../helpers/dices";
-import gameServices from "../services/game/game.services";
+import GameRepositorySQL from "../repositories/sql/game.repository";
+import GameRepositoryMongo from "../repositories/mongo/game.repository";
+import config from "../config";
 
 class GameController {
+
+  private gameRepository: GameRepositoryMongo | GameRepositorySQL | undefined = undefined;;
+  private playerRepository: PlayerRepositoryMongo | PlayerRepositorySQL | undefined = undefined;;
+
+  constructor() {
+    this.playGame = this.playGame.bind(this);
+    this.deletePlayerGames = this.deletePlayerGames.bind(this);
+    this.getPlayerGames = this.getPlayerGames.bind(this);
+    if (config.database === "mongo") {
+      this.gameRepository = new GameRepositoryMongo();
+      this.playerRepository = new PlayerRepositoryMongo();
+
+    } else if (config.database === "sql") {
+      this.gameRepository = new GameRepositorySQL();
+      this.playerRepository = new PlayerRepositorySQL();
+
+    }
+  }
+
+
   /**
    * POST /games/{id}: Realiza un nuevo juego para un jugador específico.
    */
   public async playGame(req: Request, res: Response): Promise<void> {
     try {
+      if (!this.playerRepository || !this.gameRepository) {
+        throw new Error("Player or game repository is not initialized");
+      }
       const { id } = req.params;
-      const idNum = parseInt(id);
       console.log(`id [${id}]`);
-      const player = await playerServices.findPlayerById(id);
+      const player = await this.playerRepository.findPlayerById(id);
 
       console.log(req.params, "req params");
       console.log(player);
@@ -25,8 +50,8 @@ class GameController {
       const { dice1, dice2, gameResult } = rollDices();
 
       // Crear una nueva instancia de Game, asociándola al jugador con el ID proporcionado
-      const newGame = await gameServices.createGame(
-        idNum,
+      const newGame = await this.gameRepository.createGame(
+        id,
         dice1,
         dice2,
         gameResult
@@ -43,8 +68,11 @@ class GameController {
   //  */
   public async deletePlayerGames(req: Request, res: Response): Promise<void> {
     try {
+      if (!this.playerRepository || !this.gameRepository) {
+        throw new Error("Player or game repository is not initialized");
+      }
       const { id } = req.params;
-      const player = await playerServices.findPlayerById(id);
+      const player = await this.playerRepository.findPlayerById(id);
 
       if (!player) {
         res.status(404).json({ message: "Jugador no encontrado" });
@@ -52,7 +80,7 @@ class GameController {
       }
 
       // Eliminar todos los juegos asociados al jugador especificado
-      const result = await gameServices.deleteGamesByPlayerId(id);
+      const result = await this.gameRepository.deleteGamesByPlayerId(id);
       console.log('number of deleted rows:', result)
       res.status(200).json({ message: "Juegos eliminados con éxito" });
     } catch (error) {
@@ -65,9 +93,12 @@ class GameController {
   //  */
   public async getPlayerGames(req: Request, res: Response): Promise<void> {
     try {
+      if (!this.playerRepository || !this.gameRepository) {
+        throw new Error("Player or game repository is not initialized");
+      }
       const { id } = req.params;
 
-      const player = await playerServices.findPlayerById(id);
+      const player = await this.playerRepository.findPlayerById(id);
 
       if (!player) {
         res.status(404).json({ message: "Jugador no encontrado" });
@@ -75,7 +106,7 @@ class GameController {
       }
 
       // Buscar todos los juegos asociados al jugador con el ID especificado
-      const games = await gameServices.findGamesByPlayerId(id);
+      const games = await this.gameRepository.findGamesByPlayerId(id);
       res.status(200).json(games);
     } catch (error) {
       console.log(error, "error games");

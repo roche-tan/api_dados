@@ -13,5 +13,6 @@ export default {
   sqlUser: process.env.SQL_USER || "default_user",
   sqlPassword: process.env.SQL_PASSWORD || "default_password",
   sqlPort: parseInt(process.env.SQL_PORT || "3306", 10),
-  sqlDatabase: process.env.SQL_DATABASE || "default_database"
+  sqlDatabase: process.env.SQL_DATABASE || "default_database",
+  database: process.env.DATABASE || "sql",
 };

@@ -1,14 +1,35 @@
 import { Request, Response } from "express";
-import playerRepository from "../services/player/player.services";
+import PlayerRepositorySQL from "../repositories/sql/player.repository";
+import PlayerRepositoryMongo from "../repositories/mongo/player.repository";
+import config from "../config";
 
 class PlayerController {
+
+  private playerRepository?: PlayerRepositoryMongo | PlayerRepositorySQL | null = null;;
+
+  constructor() {
+
+    this.createPlayer = this.createPlayer.bind(this);
+    this.getAllPlayers = this.getAllPlayers.bind(this);
+    this.updatePlayerName = this.updatePlayerName.bind(this);
+    if (config.database === "mongo") {
+      this.playerRepository = new PlayerRepositoryMongo();
+    } else if (config.database === "sql") {
+      this.playerRepository = new PlayerRepositorySQL();
+    }
+  }
+
   // POST /players: crea un jugador/a.
   public async createPlayer(req: Request, res: Response): Promise<void> {
     try {
+      if (!this.playerRepository) {
+        throw new Error("Player repository is not initialized");
+      }
+
       const { name } = req.body;
 
       // Crear jugador (nombrado o anónimo).
-      const newPlayer = await playerRepository.createPlayer(name);
+      const newPlayer = await this.playerRepository.createPlayer(name);
 
       // Responder con los detalles del jugador creado
       res.status(200).json({ name: newPlayer.name, playerId: newPlayer.id });
@@ -35,6 +56,10 @@ class PlayerController {
   // PUT /players/{id}: modifica el nombre del jugador/a.
   public async updatePlayerName(req: Request, res: Response): Promise<void> {
     try {
+      if (!this.playerRepository) {
+        throw new Error("Player repository is not initialized");
+      }
+
       const { id } = req.params;
       const { name } = req.body;
 
@@ -46,7 +71,7 @@ class PlayerController {
       const playerName = name.trim();
 
       // Verificar si ya existe un jugador con el nuevo nombre y no es el mismo jugador
-      const existingPlayer = await playerRepository.findPlayerByName(
+      const existingPlayer = await this.playerRepository.findPlayerByName(
         playerName
       );
       if (existingPlayer && existingPlayer.id.toString() !== id) {
@@ -57,7 +82,7 @@ class PlayerController {
       }
 
       // Buscar y actualizar el nombre del jugador
-      const updatedPlayer = await playerRepository.updatePlayerName(
+      const updatedPlayer = await this.playerRepository.updatePlayerName(
         id,
         playerName
       );
@@ -75,9 +100,12 @@ class PlayerController {
   // GET /players: devuelve el listado de todos los jugadores/as del sistema con su porcentaje de logros.
   public async getAllPlayers(req: Request, res: Response): Promise<void> {
     try {
+      if (!this.playerRepository) {
+        throw new Error("Player repository is not initialized");
+      }
       // Obtener todos los jugadores/as del sistema con su porcentaje de logros
       const playersWithWinPercentage =
-        await playerRepository.getAllPlayersWithWinPercentage();
+        await this.playerRepository.getAllPlayersWithWinPercentage();
 
       // Envía la respuesta con el array de jugadores y sus porcentajes de victoria
       res.status(200).json(playersWithWinPercentage);

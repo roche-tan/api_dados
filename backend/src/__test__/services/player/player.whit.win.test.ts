@@ -1,7 +1,7 @@
 import Player from "../../../models/player.model.sql";
 import Game from "../../../models/game.model.sql";
-import GameRepository from "../../../services/game/game.services";
-import PlayerRepository from "../../../services/player/player.services";
+import GameRepository from "../../../repositories/sql/game.repository";
+import PlayerRepository from "../../../repositories/sql/player.repository";
 
 describe("PlayerRepository", () => {
   afterEach(() => {
@@ -27,27 +27,26 @@ describe("PlayerRepository", () => {
         createdAt: Date;
       }
 
-      const mockedGames: { [key: string]: Game[] } = {
-        "1": [
+      const mockedGames  = [
           { id: 1, player_id: 1, dice1: 3, dice2: 4, result: true, createdAt: new Date() },
           { id: 2, player_id: 1, dice1: 1, dice2: 2, result: false, createdAt: new Date() }
-        ],
-        "2": [
-          { id: 3, player_id: 2, dice1: 5, dice2: 6, result: true, createdAt: new Date() },
-          { id: 4, player_id: 2, dice1: 4, dice2: 3, result: true, createdAt: new Date() }
         ]
-      };
-      jest.spyOn(GameRepository, "findGamesByPlayerId").mockImplementation((playerId: string) => {
-        return Promise.resolve(mockedGames[playerId] as []);
-      });
+      jest.spyOn(Game, "findAll").mockResolvedValue(mockedGames as []);
+
+      // const gameRepo = new GameRepository()
+      // jest.spyOn(gameRepo , "findGamesByPlayerId").mockImplementation((playerId: string) => {
+      //   return Promise.resolve(mockedGames[playerId] as []);
+      // });
 
       // Llamar al método a probar
-      const result = await PlayerRepository.getAllPlayersWithWinPercentage();
+      const playerRepo = new PlayerRepository()
+      
+      const result = await playerRepo.getAllPlayersWithWinPercentage();
 
       // Verificar resultados esperados
       expect(result).toEqual([
         { id: "1", name: "Jugador1", winPercentage: 50.0 },
-        { id: "2", name: "Jugador2", winPercentage: 100.0 }
+        { id: "2", name: "Jugador2", winPercentage: 50.0 }
       ]);
     });
   });

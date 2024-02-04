@@ -1,5 +1,5 @@
 import Player from "../../models/player.model.sql";
-import GameRepository from "../../services/game/game.services";
+import GameRepository from "./game.repository";
 
 class PlayerRepository {
   // Método privado para verificar si el nombre está en uso
@@ -54,12 +54,14 @@ class PlayerRepository {
   async getAllPlayersWithWinPercentage() {
     // Obtener todos los jugadores
     const players = await Player.findAll();
+    console.log("players")
+    const gameRepository = new GameRepository();
 
     // Obtener los juegos de cada jugador
     const playersWithWinPercentage = await Promise.all(
       players.map(async player => {
         // Usa GameRepository para obtener los juegos del jugador
-        const games = (await GameRepository.findGamesByPlayerId(player.id.toString())) || [];
+        const games = (await gameRepository.findGamesByPlayerId(player.id.toString())) || [];
         const wins = games.filter(game => game.result).length;
         const totalGames = games.length;
         const winPercentage = totalGames > 0 ? (wins / totalGames) * 100 : 0;
@@ -76,4 +78,4 @@ class PlayerRepository {
   }
 }
 
-export default new PlayerRepository();
+export default PlayerRepository;
