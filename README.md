@@ -88,21 +88,20 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    ```URL: /ranking
    Método: GET
    Respuesta Esperada:
-   Código de estado 200 OK con un JSON que muestra el porcentaje de victorias de todos los jugadores.```
+   Código de estado 200 OK con un JSON que muestra el porcentaje de victorias de todos los jugadores.
 
 8. Jugador con Menor Porcentaje de Victorias
 
    ```URL: /ranking/loser
    Método: GET
    Respuesta Esperada:
-   Código de estado 200 OK con un JSON que muestra el jugador con el menor porcentaje de victorias.```
+   Código de estado 200 OK con un JSON que muestra el jugador con el menor porcentaje de victorias.
 
 9. Jugador con Mayor Porcentaje de Victorias
    ```URL: /ranking/winner
    Método: GET
    Respuesta Esperada:
-   Código de estado 200 OK con un JSON que muestra el jugador con el mayor porcentaje de victorias.```
-   ```
+   Código de estado 200 OK con un JSON que muestra el jugador con el mayor porcentaje de victorias.
 
 ## Tecnologías Utilizadas
 
