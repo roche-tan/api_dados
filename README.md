@@ -35,7 +35,7 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Cuerpo de la Petición:
    name: Nombre del jugador (tipo string).
    Respuesta Esperada:
-   Código de estado 200 OK con un JSON que contiene la información del jugador creado.```
+   Código de estado 200 OK con un JSON que contiene la información del jugador creado.
 
 2. Actualizar Jugador
 
@@ -46,14 +46,14 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Cuerpo de la Petición:
    name: Nuevo nombre del jugador (tipo string).
    Respuesta Esperada:
-   Código de estado 200 OK con un JSON que muestra la información actualizada del jugador.```
+   Código de estado 200 OK con un JSON que muestra la información actualizada del jugador.
 
 3. Lista de Jugadores
 
    ```URL: /players
    Método: GET
    Respuesta Esperada:
-   Código de estado 200 OK con un JSON que lista todos los jugadores.```
+   Código de estado 200 OK con un JSON que lista todos los jugadores.
 
 4. Jugar Partida
 
@@ -62,7 +62,7 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Parámetros:
    playerId: ID del jugador (tipo integer).
    Respuesta Esperada:
-   Código de estado 200 OK con un JSON que contiene el resultado de la partida.```
+   Código de estado 200 OK con un JSON que contiene el resultado de la partida.
 
 5. Obtener Partidas por ID de Jugador
 
@@ -71,7 +71,7 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Parámetros:
    playerId: ID del jugador (tipo integer).
    Respuesta Esperada:
-   Código de estado 200 OK con un JSON que lista las partidas del jugador especificado.```
+   Código de estado 200 OK con un JSON que lista las partidas del jugador especificado.
 
 6. Eliminar Partidas de un Jugador
 
@@ -80,7 +80,7 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Parámetros:
    playerId: ID del jugador (tipo integer).
    Respuesta Esperada:
-   Código de estado 200 OK con un mensaje confirmando la eliminación de las partidas.```
+   Código de estado 200 OK con un mensaje confirmando la eliminación de las partidas.
 
 
 7. Ranking General de Porcentaje de Victorias
