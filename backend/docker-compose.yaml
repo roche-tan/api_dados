@@ -18,11 +18,12 @@ services:
     image: mongo:latest
     environment:
       MONGO_INITDB_ROOT_USERNAME: dice # Cambia esto por tu usuario
-      MONGO_INITDB_ROOT_PASSWORD: ke7vvKBQjjdiqqKI # Cambia esto por tu contraseña
+      MONGO_INITDB_ROOT_PASSWORD: password # Cambia esto por tu contraseña
     ports:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+      - ./mongo:/docker-entrypoint-initdb.d # Mount the directory containing mongo-init.js
     restart: always
 
 volumes:

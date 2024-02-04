@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const playGameButton = document.getElementById("playGame");
   const logoutButton = document.getElementById("logoutButton");
   const showPlayersListBtn = document.getElementById("showPlayersList");
+
   const showGamesButton = document.getElementById("showGames");
   const deletePlayerGamesButton = document.getElementById("deletePlayerGames");
   const editPlayerButton = document.getElementById("editPlayerButton");
@@ -81,6 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const handleLogout = () => {
     document.getElementById("gameSection").style.display = "none";
     document.getElementById("loginSection").style.display = "block";
+    const listContainer = document.getElementById("playersList");
+    listContainer.style.display = "none";
+    const rankingContainer = document.getElementById("showRankingsContainer");
+    rankingContainer.style.display = "none";
+    const gamesContainer = document.getElementById("gamesList");
+    gamesContainer.style.display = "none";
     resetGameState();
   };
 
@@ -127,18 +134,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("dice1").src = `src/img/${dice1}.svg`;
     document.getElementById("dice2").src = `src/img/${dice2}.svg`;
   };
-
-  // function displayPlayersList(players) {
-  //   const container = document.getElementById("playersList");
-  //   container.innerHTML = ""; // Limpiar el contenedor antes de mostrar nuevos resultados
-
-  //   // Crear y añadir los elementos al contenedor para cada jugador
-  //   players.forEach((player) => {
-  //     const playerElement = document.createElement("div");
-  //     playerElement.textContent = `ID: ${player.id}, Nombre: ${player.name}`;
-  //     container.appendChild(playerElement);
-  //   });
-  // }
 
   function displayRanking(data, containerId) {
     const container = document.getElementById(containerId);
@@ -277,6 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .then((players) => {
         const listContainer = document.getElementById("playersList");
+        listContainer.style.display = "";
         listContainer.innerHTML = ""; // Limpiar el contenedor antes de mostrar los nuevos resultados
 
         // Crear y añadir los elementos al contenedor para cada jugador
