@@ -24,6 +24,86 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
 - **Interfaz de Usuario**: Desarrollo de una interfaz de usuario intuitiva y atractiva para interactuar con la API.
 - **Integración con Bases de Datos**: Configuración de una base de datos para almacenar resultados de juegos y estadísticas de los usuarios.
 
+## Documentación API
+
+###Endpoints Disponibles
+
+1. Crear Jugador
+
+   ```URL: /players
+   Método: POST
+   Cuerpo de la Petición:
+   name: Nombre del jugador (tipo string).
+   Respuesta Esperada:
+   Código de estado 200 OK con un JSON que contiene la información del jugador creado.```
+
+2. Actualizar Jugador
+
+   ```URL: /players/{id}
+   Método: PUT
+   Parámetros:
+   id: ID del jugador (tipo integer).
+   Cuerpo de la Petición:
+   name: Nuevo nombre del jugador (tipo string).
+   Respuesta Esperada:
+   Código de estado 200 OK con un JSON que muestra la información actualizada del jugador.```
+
+3. Lista de Jugadores
+
+   ```URL: /players
+   Método: GET
+   Respuesta Esperada:
+   Código de estado 200 OK con un JSON que lista todos los jugadores.```
+
+4. Jugar Partida
+
+   ```URL: /games/{playerId}
+   Método: POST
+   Parámetros:
+   playerId: ID del jugador (tipo integer).
+   Respuesta Esperada:
+   Código de estado 200 OK con un JSON que contiene el resultado de la partida.```
+
+5. Obtener Partidas por ID de Jugador
+
+   ```URL: /games/{playerId}
+   Método: GET
+   Parámetros:
+   playerId: ID del jugador (tipo integer).
+   Respuesta Esperada:
+   Código de estado 200 OK con un JSON que lista las partidas del jugador especificado.```
+
+6. Eliminar Partidas de un Jugador
+
+   ```URL: /games/{playerId}
+   Método: DELETE
+   Parámetros:
+   playerId: ID del jugador (tipo integer).
+   Respuesta Esperada:
+   Código de estado 200 OK con un mensaje confirmando la eliminación de las partidas.```
+
+
+7. Ranking General de Porcentaje de Victorias
+
+   ```URL: /ranking
+   Método: GET
+   Respuesta Esperada:
+   Código de estado 200 OK con un JSON que muestra el porcentaje de victorias de todos los jugadores.```
+
+8. Jugador con Menor Porcentaje de Victorias
+
+   ```URL: /ranking/loser
+   Método: GET
+   Respuesta Esperada:
+   Código de estado 200 OK con un JSON que muestra el jugador con el menor porcentaje de victorias.```
+
+9. Jugador con Mayor Porcentaje de Victorias
+   ```URL: /ranking/winner
+   Método: GET
+   Respuesta Esperada:
+   Código de estado 200 OK con un JSON que muestra el jugador con el mayor porcentaje de victorias.```
+   ```
+
 ## Tecnologías Utilizadas
 
 Este proyecto utiliza una variedad de tecnologías modernas para su desarrollo, incluyendo:
