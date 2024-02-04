@@ -1,0 +1,58 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+#loginSection, #gameSection {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+input[type="text"], button, input[type="radio"] {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+button {
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #4cae4c;
+}
+
+#personalName {
+  margin-top: 10px;
+}
+
+#diceContainer img {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+}
+
+#playersList, #gamesList, #showRankingsContainer, #gameResults, #rankingDisplay {
+  background-color: #e9e9e9;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+#editPlayerForm, #showRankingsContainer {
+  margin-top: 10px;
+}
