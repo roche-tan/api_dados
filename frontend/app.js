@@ -424,4 +424,3 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("Ha ocurrido un error.");
   };
 });
-
