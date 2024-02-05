@@ -223,6 +223,19 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       body: isAnonymous ? "{}" : JSON.stringify({ name }),
     })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 400) {
+            // Intentamos obtener el mensaje de error del cuerpo de la respuesta
+            return response.json().then((data) => {
+              throw new Error(data.message); // Lanzamos un error con el mensaje específico
+            });
+          }
+          // Para otros códigos de estado de error, lanzamos un error genérico
+          throw new Error("Error al crear el jugador");
+        }
+        return response.json();
+      })
       .then((response) => response.json())
       .then((data) => {
         console.log("Jugador creado:", data);
@@ -231,6 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch((error) => {
         console.error("Error:", error);
+        alert(error.message);
       });
   };
 
