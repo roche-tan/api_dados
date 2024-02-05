@@ -12,11 +12,12 @@ Hace falta tener instalado Docker.
 Para obtener una copia local en funcionamiento, sigue estos pasos:
 
 1. Clona el repositorio.
-2. Accede a la carpeta backend y lanza el comandp `docker-compose up -d`. El cual lanzará una instancia de Mongo en localhost:27017 y una instancia mysql en el puerto 3307.
-3. Comprueba que las instancias están levantadas.
-4. Instala las dependencias con `npm install`.
-5. Ejecuta el entorno de desarrollo con `npm run dev`.
-6. Accede a la carpeta de frontend y abre en el navegador el archivo index.html
+2. Crear documento `.env` siguiendo los datos de `.env.sample` con las conexiones necesarias.
+3. Accede a la carpeta backend y lanza el comandp `docker-compose up -d`. El cual lanzará una instancia de Mongo en localhost:27017 y una instancia mysql en el puerto 3307.
+4. Comprueba que las instancias están levantadas.
+5. Instala las dependencias con `npm install`.
+6. Ejecuta el entorno de desarrollo con `npm run dev`.
+7. Accede a la carpeta de frontend y abre en el navegador el archivo index.html
 
 ## Características en Desarrollo
 
