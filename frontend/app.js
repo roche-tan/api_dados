@@ -82,16 +82,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const handleLogout = () => {
     document.getElementById("gameSection").style.display = "none";
     document.getElementById("loginSection").style.display = "block";
-    const listContainer = document.getElementById("playersList");
-    listContainer.style.display = "none";
-    const rankingContainer = document.getElementById("showRankingsContainer");
-    rankingContainer.style.display = "none";
-    const gamesContainer = document.getElementById("gamesList");
-    gamesContainer.style.display = "none";
     resetGameState();
+    // const listContainer = document.getElementById("showPlayersListContainer");
+    // listContainer.style.display = "none";
+    // const rankingContainer = document.getElementById("showRankingsContainer");
+    // rankingContainer.style.display = "none";
+    // const gamesContainer = document.getElementById("showGameListContainer");
+    // gamesContainer.style.display = "none";
+    // resetGameState();
   };
 
   const handleShowPlayersList = () => {
+    const listContainer = document.getElementById("showPlayersListContainer");
+    listContainer.style.display = "block";
     fetchPlayersList();
   };
 
