@@ -12,11 +12,12 @@ Hace falta tener instalado Docker.
 Para obtener una copia local en funcionamiento, sigue estos pasos:
 
 1. Clona el repositorio.
-2. Accede a la carpeta backend y lanza el comandp `docker-compose up -d`. El cual lanzará una instancia de Mongo en localhost:27017 y una instancia mysql en el puerto 3307.
-3. Comprueba que las instancias están levantadas.
-4. Instala las dependencias con `npm install`.
-5. Ejecuta el entorno de desarrollo con `npm run dev`.
-6. Accede a la carpeta de frontend y abre en el navegador el archivo index.html
+2. Crear documento `.env` siguiendo los datos de `.env.sample` con las conexiones necesarias.
+3. Accede a la carpeta backend y lanza el comandp `docker-compose up -d`. El cual lanzará una instancia de Mongo en localhost:27017 y una instancia mysql en el puerto 3307.
+4. Comprueba que las instancias están levantadas.
+5. Instala las dependencias con `npm install`.
+6. Ejecuta el entorno de desarrollo con `npm run dev`.
+7. Accede a la carpeta de frontend y abre en el navegador el archivo index.html
 
 ## Características en Desarrollo
 
@@ -37,6 +38,8 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Respuesta Esperada:
    Código de estado 200 OK con un JSON que contiene la información del jugador creado.
 
+   ```
+
 2. Actualizar Jugador
 
    ```URL: /players/{id}
@@ -48,12 +51,16 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Respuesta Esperada:
    Código de estado 200 OK con un JSON que muestra la información actualizada del jugador.
 
+   ```
+
 3. Lista de Jugadores
 
    ```URL: /players
    Método: GET
    Respuesta Esperada:
    Código de estado 200 OK con un JSON que lista todos los jugadores.
+
+   ```
 
 4. Jugar Partida
 
@@ -64,6 +71,8 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Respuesta Esperada:
    Código de estado 200 OK con un JSON que contiene el resultado de la partida.
 
+   ```
+
 5. Obtener Partidas por ID de Jugador
 
    ```URL: /games/{playerId}
@@ -72,6 +81,8 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    playerId: ID del jugador (tipo integer).
    Respuesta Esperada:
    Código de estado 200 OK con un JSON que lista las partidas del jugador especificado.
+
+   ```
 
 6. Eliminar Partidas de un Jugador
 
@@ -82,6 +93,7 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Respuesta Esperada:
    Código de estado 200 OK con un mensaje confirmando la eliminación de las partidas.
 
+   ```
 
 7. Ranking General de Porcentaje de Victorias
 
@@ -90,6 +102,8 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Respuesta Esperada:
    Código de estado 200 OK con un JSON que muestra el porcentaje de victorias de todos los jugadores.
 
+   ```
+
 8. Jugador con Menor Porcentaje de Victorias
 
    ```URL: /ranking/loser
@@ -97,11 +111,14 @@ Para obtener una copia local en funcionamiento, sigue estos pasos:
    Respuesta Esperada:
    Código de estado 200 OK con un JSON que muestra el jugador con el menor porcentaje de victorias.
 
+   ```
+
 9. Jugador con Mayor Porcentaje de Victorias
    ```URL: /ranking/winner
    Método: GET
    Respuesta Esperada:
    Código de estado 200 OK con un JSON que muestra el jugador con el mayor porcentaje de victorias.
+   ```
 
 ## Tecnologías Utilizadas
 
