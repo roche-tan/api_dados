@@ -25,14 +25,12 @@ class Server {
     games: "/games",
     players: "/players",
     ranking: "/ranking",
-    error404: "*"
+    error404: "*",
   };
 
   constructor() {
     this.app = express();
     this.port = config.port;
-
-
   }
 
   async dbConnect() {
@@ -65,7 +63,6 @@ class Server {
     this.routes();
     this.listen();
   }
- 
 }
 
 export default Server;
