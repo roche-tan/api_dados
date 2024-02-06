@@ -16,3 +16,5 @@ export default {
   sqlDatabase: process.env.SQL_DATABASE || "default_database",
   database: process.env.DATABASE || "sql",
 };
+
+// en archivo json

@@ -7,9 +7,12 @@ import GameRepositoryMongo from "../repositories/mongo/game.repository";
 import config from "../config";
 
 class GameController {
-
-  private gameRepository: GameRepositoryMongo | GameRepositorySQL | undefined = undefined;;
-  private playerRepository: PlayerRepositoryMongo | PlayerRepositorySQL | undefined = undefined;;
+  private gameRepository: GameRepositoryMongo | GameRepositorySQL | undefined =
+    undefined;
+  private playerRepository:
+    | PlayerRepositoryMongo
+    | PlayerRepositorySQL
+    | undefined = undefined;
 
   constructor() {
     this.playGame = this.playGame.bind(this);
@@ -18,14 +21,11 @@ class GameController {
     if (config.database === "mongo") {
       this.gameRepository = new GameRepositoryMongo();
       this.playerRepository = new PlayerRepositoryMongo();
-
-    } else if (config.database === "sql") {
+    } else {
       this.gameRepository = new GameRepositorySQL();
       this.playerRepository = new PlayerRepositorySQL();
-
     }
   }
-
 
   /**
    * POST /games/{id}: Realiza un nuevo juego para un jugador específico.
@@ -81,7 +81,7 @@ class GameController {
 
       // Eliminar todos los juegos asociados al jugador especificado
       const result = await this.gameRepository.deleteGamesByPlayerId(id);
-      console.log('number of deleted rows:', result)
+      console.log("number of deleted rows:", result);
       res.status(200).json({ message: "Juegos eliminados con éxito" });
     } catch (error) {
       res.status(500).json({ message: "Error interno del servidor" });
